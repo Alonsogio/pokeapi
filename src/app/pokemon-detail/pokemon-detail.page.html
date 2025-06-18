@@ -1,0 +1,45 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>pokemon-detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">pokemon-detail</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</ion-content>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ pokemon?.name | titlecase }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="pokemon">
+  <ion-card>
+    <img [src]="pokemon.sprites.front_default" alt="{{pokemon.name}}" />
+    <ion-card-header>
+      <ion-card-title>{{ pokemon.name | titlecase }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p><strong>Altura:</strong> {{ pokemon.height / 10 }} m</p>
+      <p><strong>Peso:</strong> {{ pokemon.weight / 10 }} kg</p>
+      <p><strong>Experiência base:</strong> {{ pokemon.base_experience }}</p>
+      <p><strong>Tipo(s):</strong>
+        <span *ngFor="let type of pokemon.types; let i = index">
+          {{ type.type.name }}<span *ngIf="i + 1 < pokemon.types.length">, </span>
+        </span>
+      </p>
+      <p><strong>Habilidades:</strong>
+        <span *ngFor="let ability of pokemon.abilities; let i = index">
+          {{ ability.ability.name }}<span *ngIf="i + 1 < pokemon.abilities.length">, </span>
+        </span>
+      </p>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
