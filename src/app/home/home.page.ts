@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PokeapiService } from '../services/pokeapi.service';
+import { FavoriteService } from '../services/favorite.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,11 +10,11 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class HomePage implements OnInit {
-
   pokemons: any[] = [];
 
   constructor(
     private pokeService: PokeapiService,
+    private favoriteService: FavoriteService,
     private router: Router
   ) {}
 
@@ -23,13 +24,29 @@ export class HomePage implements OnInit {
 
   loadPokemons() {
     this.pokeService.getPokemons().subscribe(async (res: any) => {
-      const requests = res.results.map((pokemon: any) => this.pokeService.getPokemonDetails(pokemon.url));
-      const details = await Promise.all(requests.map((req: { toPromise: () => any; }) => req.toPromise()));
+      const requests = res.results.map((pokemon: any) =>
+        this.pokeService.getPokemonDetails(pokemon.url)
+      );
+      const details = await Promise.all(
+        requests.map((req: { toPromise: () => any }) => req.toPromise())
+      );
       this.pokemons = details;
     });
   }
 
   goToDetail(name: string) {
     this.router.navigate(['/pokemon-detail', name]);
+  }
+
+  toggleFavorite(name: string) {
+    if (this.favoriteService.isFavorite(name)) {
+      this.favoriteService.removeFavorite(name);
+    } else {
+      this.favoriteService.addFavorite(name);
+    }
+  }
+
+  isFavorite(name: string): boolean {
+    return this.favoriteService.isFavorite(name);
   }
 }

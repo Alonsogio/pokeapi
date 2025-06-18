@@ -10,8 +10,20 @@
       <ion-col size="6" *ngFor="let pokemon of pokemons">
         <ion-card (click)="goToDetail(pokemon.name)">
           <img [src]="pokemon.sprites.front_default" alt="{{pokemon.name}}" />
-          <ion-card-header>
+          <ion-card-header class="ion-align-items-center ion-justify-content-between" style="display: flex;">
             <ion-card-title>{{ pokemon.name | titlecase }}</ion-card-title>
+          
+            <ion-button
+              fill="clear"
+              size="small"
+              (click)="toggleFavorite(pokemon.name); $event.stopPropagation()"
+            >
+              <ion-icon
+                [name]="isFavorite(pokemon.name) ? 'heart' : 'heart-outline'"
+                color="danger"
+                slot="icon-only"
+              ></ion-icon>
+            </ion-button>
           </ion-card-header>
         </ion-card>
       </ion-col>
