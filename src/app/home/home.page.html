@@ -10,9 +10,12 @@
       <ion-col size="6" *ngFor="let pokemon of pokemons">
         <ion-card (click)="goToDetail(pokemon.name)">
           <img [src]="pokemon.sprites.front_default" alt="{{pokemon.name}}" />
-          <ion-card-header class="ion-align-items-center ion-justify-content-between" style="display: flex;">
+          <ion-card-header
+            class="ion-align-items-center ion-justify-content-between"
+            style="display: flex"
+          >
             <ion-card-title>{{ pokemon.name | titlecase }}</ion-card-title>
-          
+
             <ion-button
               fill="clear"
               size="small"
@@ -29,4 +32,32 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+  <ion-row class="ion-justify-content-center ion-padding">
+    <ion-button
+      size="small"
+      fill="clear"
+      (click)="loadPokemons(currentPage - 1)"
+      [disabled]="currentPage === 1"
+    >
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      size="small"
+      [color]="currentPage === i + 1 ? 'primary' : 'light'"
+      (click)="loadPokemons(i + 1)"
+    >
+      {{ i + 1 }}
+    </ion-button>
+
+    <ion-button
+      size="small"
+      fill="clear"
+      (click)="loadPokemons(currentPage + 1)"
+      [disabled]="currentPage === totalPages"
+    >
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </ion-button>
+  </ion-row>
 </ion-content>

@@ -11,6 +11,9 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
   pokemons: any[] = [];
+  currentPage: number = 1;
+  totalPages: number = 10;
+  limit: number = 20;
 
   constructor(
     private pokeService: PokeapiService,
@@ -19,19 +22,26 @@ export class HomePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.loadPokemons();
+    this.loadPokemons(1);
   }
 
-  loadPokemons() {
-    this.pokeService.getPokemons().subscribe(async (res: any) => {
-      const requests = res.results.map((pokemon: any) =>
-        this.pokeService.getPokemonDetails(pokemon.url)
-      );
-      const details = await Promise.all(
-        requests.map((req: { toPromise: () => any }) => req.toPromise())
-      );
-      this.pokemons = details;
-    });
+  loadPokemons(page: number) {
+    if (page < 1 || page > this.totalPages) return;
+
+    const offset = (page - 1) * this.limit;
+    this.currentPage = page;
+
+    this.pokeService
+      .getPokemons(offset, this.limit)
+      .subscribe(async (res: any) => {
+        const requests = res.results.map((pokemon: any) =>
+          this.pokeService.getPokemonDetails(pokemon.url)
+        );
+        const details = await Promise.all(
+          requests.map((req: { toPromise: () => any }) => req.toPromise())
+        );
+        this.pokemons = details;
+      });
   }
 
   goToDetail(name: string) {
