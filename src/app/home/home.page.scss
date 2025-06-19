@@ -1,6 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
 #container {
   text-align: center;
-
   position: absolute;
   left: 0;
   right: 0;
@@ -24,4 +25,80 @@
 
 #container a {
   text-decoration: none;
+}
+
+.title {
+  font-family: "Roboto", sans-serif;
+  color: white;
+}
+.pokemon-card {
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row-reverse;
+  width: 18rem;
+  height: 12rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.abilities-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.ability {
+  text-align: center;
+  padding: 6px 8px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 32px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: white;
+  text-transform: capitalize;
+}
+
+.background-img {
+  background-image: url(/assets/img/pokeball.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  padding: 75px;
+  position: relative;
+  left: 10px;
+  top: 78px;
+}
+
+.pokemon-card-img {
+  height: 12rem;
+  position: relative;
+  max-width: 12rem;
+  bottom: 136px;
+  right: 30px;
+}
+.card-div-name {
+  width: 50%;
+  height: 100%;
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.imgs-card {
+  width: 50%;
+  height: 100%;
 }
