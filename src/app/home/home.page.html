@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Pokédex</ion-title>
+    <ion-title><img class="imgheader" src="assets/img/pokedex.png" alt="" /></ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,16 +8,16 @@
   <ion-grid>
     <ion-row>
       <ion-col
-        size="10"
-        size-sm="8"
-        size-md="6"
-        size-lg="4"
-        size-xl="2"
+        size="8"
+        size-sm="6"
+        size-md="4"
+        size-lg="3"
+        size-xl="3"
         *ngFor="let pokemon of pokemons"
       >
         <ion-card
           class="pokemon-card"
-          (click)="goToDetail(pokemon.name)"
+          (click)="goToDetail(pokemon)"
           [ngStyle]="{ 'background-color': getCardColor(pokemon)}"
         >
           <div class="imgs-card">

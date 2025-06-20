@@ -1,30 +1,13 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>pokemon-detail</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">pokemon-detail</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
-<ion-header>
-  <ion-toolbar>
+<ion-content>
+  <div
+    class="menuNav"
+    *ngIf="pokemon"
+    [ngStyle]="{ 'background-color': getCardColor(pokemon) }"
+  >
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button>
+      <ion-back-button defaultHref="/home" [ngStyle]="{ 'color': '#ffffff' }"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ pokemon?.name | titlecase }}</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content *ngIf="pokemon">
-  <ion-card>
-    <img [src]="pokemon.sprites.front_default" alt="{{pokemon.name}}" />
-    <ion-card-header>
-      <ion-card-title>{{ pokemon.name | titlecase }}</ion-card-title>
+    <ion-buttons slot="end">
       <ion-button
         fill="clear"
         size="small"
@@ -32,32 +15,76 @@
       >
         <ion-icon
           [name]="isFavorite(pokemon.name) ? 'heart' : 'heart-outline'"
-          color="danger"
+          color="light"
           slot="icon-only"
         ></ion-icon>
       </ion-button>
-    </ion-card-header>
-    <ion-card-content>
-      <p><strong>Altura:</strong> {{ pokemon.height / 10 }} m</p>
-      <p><strong>Peso:</strong> {{ pokemon.weight / 10 }} kg</p>
-      <p><strong>Experiência base:</strong> {{ pokemon.base_experience }}</p>
-      <p>
-        <strong>Tipo(s):</strong>
-        <span *ngFor="let type of pokemon.types; let i = index">
-          {{ type.type.name }}<span *ngIf="i + 1 < pokemon.types.length"
-            >,
-          </span>
-        </span>
-      </p>
-      <p>
-        <strong>Habilidades:</strong>
-        <span *ngFor="let ability of pokemon.abilities; let i = index">
-          {{ ability.ability.name }}<span
-            *ngIf="i + 1 < pokemon.abilities.length"
-            >,
-          </span>
-        </span>
-      </p>
-    </ion-card-content>
-  </ion-card>
+    </ion-buttons>
+  </div>
+
+  <div
+    *ngIf="pokemon"
+    class="detail-container"
+    [ngStyle]="{ 'background-color': getCardColor(pokemon) }"
+  >
+    <div class="infos-div">
+      <div>
+        <h2>{{ pokemon.name | titlecase }}</h2>
+      </div>
+
+      <div class="abilities-wrapper">
+        <div class="ability" *ngFor="let type of pokemon.types">
+          {{ type.type.name | titlecase }}
+        </div>
+      </div>
+    </div>
+    <div class="pokemon-image-wrapper">
+      <img
+        [src]="pokemon.sprites.front_default"
+        alt="{{ pokemon.name }}"
+        class="pokemon-img-floating"
+      />
+    </div>
+
+    <div class="info-card">
+      <p><strong>Altura</strong> {{ pokemon.height / 10 }} m</p>
+      <p><strong>Peso</strong> {{ pokemon.weight / 10 }} kg</p>
+      <p><strong>Experiência base</strong> {{ pokemon.base_experience }}</p>
+      <div class="stat-bar">
+        <strong>HP </strong>
+        <span>{{ getStat('hp') }}</span>
+        <div class="progress-container">
+          <div
+            class="progress-fill"
+            [style.width.%]="getStat('hp')"
+            [ngClass]="{ 'low': getStat('hp') < 50, 'high': getStat('hp') >= 50 }"
+          ></div>
+        </div>
+      </div>
+
+      <div class="stat-bar">
+        <strong>Ataque </strong>
+        <span>{{ getStat('attack') }}</span>
+        <div class="progress-container">
+          <div
+            class="progress-fill"
+            [style.width.%]="getStat('attack')"
+            [ngClass]="{ 'low': getStat('attack') < 50, 'high': getStat('attack') >= 50 }"
+          ></div>
+        </div>
+      </div>
+
+      <div class="stat-bar">
+        <strong>Defesa </strong>
+        <span>{{ getStat('defense') }}</span>
+        <div class="progress-container">
+          <div
+            class="progress-fill"
+            [style.width.%]="getStat('defense')"
+            [ngClass]="{ 'low': getStat('defense') < 50, 'high': getStat('defense') >= 50 }"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>

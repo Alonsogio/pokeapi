@@ -35,10 +35,7 @@ export class HomePage implements OnInit {
     flying: '#a1bbec',
   };
 
-  constructor(
-    private pokeService: PokeapiService,
-    private router: Router
-  ) {}
+  constructor(private pokeService: PokeapiService, private router: Router) {}
 
   ngOnInit() {
     this.loadPokemons(1);
@@ -63,8 +60,11 @@ export class HomePage implements OnInit {
       });
   }
 
-  goToDetail(name: string) {
-    this.router.navigate(['/pokemon-detail', name]);
+  goToDetail(pokemon: any) {
+    const color = this.getCardColor(pokemon);
+    this.router.navigate(['/pokemon-detail', pokemon.name], {
+      state: { color },
+    });
   }
 
   getCardColor(pokemon: any): string {
