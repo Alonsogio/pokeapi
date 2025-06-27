@@ -106,3 +106,12 @@
 .imgheader {
   height: 46px;
 }
+
+@media screen and (max-width: 600px) {
+  .pokemon-row {
+    justify-content: center !important;
+  }
+  .title {
+    font-size: 1rem;
+  }
+}

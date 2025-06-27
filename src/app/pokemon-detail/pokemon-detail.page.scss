@@ -7,25 +7,35 @@
 }
 
 .pokemon-image-wrapper {
-  position: relative;
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 2;
-  width: 100%;
-  display: flex;
-  justify-content: center;
+  pointer-events: none;
 }
 
 .pokemon-img-floating {
   width: 284px;
   height: 284px;
+  object-fit: cover;
 }
 
 .info-card {
+  position: relative;
   background: white;
   border-radius: 24px 24px 0 0;
   padding: 20px;
   width: 100%;
-  margin-top: -100px;
+  margin-top: 218px;
   z-index: 1;
+}
+
+.infos {
+  padding: 20px;
+}
+.infos-hp {
+  padding: 50px;
 }
 
 .menuNav {
@@ -33,6 +43,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 13px;
+  border-bottom: solid 1px #ebebeb91;
 }
 
 strong {
@@ -91,7 +102,7 @@ h2 {
 
 .progress-fill {
   height: 100%;
-  transition: width 0.3s ease;
+  transition: width 1s ease-in-out;
 }
 
 .progress-fill.low {
@@ -100,4 +111,57 @@ h2 {
 
 .progress-fill.high {
   background-color: #2ecc71;
+}
+
+.related-images {
+  margin-top: 20px;
+  text-align: center;
+
+  h3 {
+    color: #444;
+    font-weight: bold;
+  }
+
+  .image-gallery {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+    }
+  }
+}
+.tab-buttons {
+  display: flex;
+  justify-content: space-around;
+  margin: 16px 0;
+  z-index: 3;
+  position: relative;
+
+  button,
+  ion-button {
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: gray;
+    border-bottom: 2px solid transparent;
+    z-index: 3;
+
+    &.active {
+      color: black;
+      border-bottom-color: black;
+    }
+  }
+}
+
+@media screen and (max-width: 477px) {
+  .pokemon-image-wrapper {
+    left: 35%;
+    transform: translateX(-24%);
+  }
 }

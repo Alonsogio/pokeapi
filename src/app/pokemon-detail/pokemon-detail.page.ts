@@ -2,17 +2,37 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FavoriteService } from '../services/favorite.service';
 import { PokeapiService } from '../services/pokeapi.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-pokemon-detail',
   templateUrl: './pokemon-detail.page.html',
   styleUrls: ['./pokemon-detail.page.scss'],
   standalone: false,
+  animations: [
+    trigger('tabFade', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateX(20px)' }),
+        animate(
+          '300ms ease',
+          style({ opacity: 1, transform: 'translateX(0)' })
+        ),
+      ]),
+      transition(':leave', [
+        animate(
+          '200ms ease',
+          style({ opacity: 0, transform: 'translateX(-20px)' })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class PokemonDetailPage implements OnInit {
   pokemon: any = null;
   name: string = '';
   cardColor: string = '#fff';
+  currentTab: 'about' | 'stats' | 'images' = 'about';
+  animatedStats: { [key: string]: number } = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -50,6 +70,29 @@ export class PokemonDetailPage implements OnInit {
         (stat: { stat: { name: string } }) => stat.stat.name === statName
       )?.base_stat || 0;
     return Math.min(base, 100);
+  }
+  setTab(tab: 'about' | 'stats' | 'images') {
+    this.currentTab = tab;
+
+    if (tab === 'stats') {
+      const stats = ['hp', 'attack', 'defense'];
+
+      stats.forEach((stat) => {
+        this.animatedStats[stat] = 0;
+        const target = this.getStat(stat);
+        let current = 0;
+
+        const interval = setInterval(() => {
+          if (current >= target) {
+            clearInterval(interval);
+            this.animatedStats[stat] = target;
+          } else {
+            current += 1;
+            this.animatedStats[stat] = current;
+          }
+        }, 10);
+      });
+    }
   }
 
   getCardColor(pokemon: any): string {
