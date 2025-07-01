@@ -1,0 +1,156 @@
+<ion-content>
+  <div
+    class="menuNav"
+    *ngIf="pokemon"
+    [ngStyle]="{ 'background-color': getCardColor(pokemon) }"
+  >
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="/home"
+        [ngStyle]="{ 'color': '#ffffff' }"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button
+        fill="clear"
+        size="small"
+        (click)="toggleFavorite(pokemon.name); $event.stopPropagation()"
+      >
+        <ion-icon
+          [name]="isFavorite(pokemon.name) ? 'heart' : 'heart-outline'"
+          color="light"
+          slot="icon-only"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </div>
+
+  <div
+    *ngIf="pokemon"
+    class="detail-container"
+    [ngStyle]="{ 'background-color': getCardColor(pokemon) }"
+  >
+    <div class="infos-div">
+      <div>
+        <h2>{{ pokemon.name | titlecase }}</h2>
+      </div>
+
+      <div class="abilities-wrapper">
+        <div class="ability" *ngFor="let type of pokemon.types">
+          {{ type.type.name | titlecase }}
+        </div>
+      </div>
+    </div>
+    <div class="pokemon-image-wrapper">
+      <img
+        [src]="pokemon.sprites.front_default"
+        alt="{{ pokemon.name }}"
+        class="pokemon-img-floating"
+      />
+    </div>
+
+    <div class="info-card">
+      <div class="tab-buttons">
+        <ion-button
+          fill="clear"
+          [class.active]="currentTab === 'about'"
+          (click)="setTab('about')"
+        >
+          Sobre
+        </ion-button>
+        <ion-button
+          fill="clear"
+          [class.active]="currentTab === 'stats'"
+          (click)="setTab('stats')"
+        >
+          Status
+        </ion-button>
+        <ion-button
+          fill="clear"
+          [class.active]="currentTab === 'images'"
+          (click)="setTab('images')"
+        >
+          Imagens
+        </ion-button>
+      </div>
+
+      <div class="infos" *ngIf="currentTab === 'about'" @tabFade>
+        <p><strong>Altura</strong> {{ pokemon.height / 10 }} m</p>
+        <p><strong>Peso</strong> {{ pokemon.weight / 10 }} kg</p>
+        <p><strong>Experiência base</strong> {{ pokemon.base_experience }}</p>
+      </div>
+
+      <div class="infos-hp" *ngIf="currentTab === 'stats'" @tabFade>
+        <div class="stat-bar">
+          <strong>HP </strong>
+          <span>{{ getStat('hp') }}</span>
+          <div class="progress-container">
+            <div
+              class="progress-fill"
+              [style.width.%]="getStat('hp')"
+              [style.width.%]="animatedStats['hp']"
+              [ngClass]="{ 'low': getStat('hp') < 50, 'high': getStat('hp') >= 50 }"
+            ></div>
+          </div>
+        </div>
+
+        <div class="stat-bar">
+          <strong>Ataque </strong>
+          <span>{{ getStat('attack') }}</span>
+          <div class="progress-container">
+            <div
+              class="progress-fill"
+              [style.width.%]="getStat('attack')"
+              [style.width.%]="animatedStats['attack']"
+              [ngClass]="{ 'low': getStat('attack') < 50, 'high': getStat('attack') >= 50 }"
+            ></div>
+          </div>
+        </div>
+
+        <div class="stat-bar">
+          <strong>Defesa </strong>
+          <span>{{ getStat('defense') }}</span>
+          <div class="progress-container">
+            <div
+              class="progress-fill"
+              [style.width.%]="getStat('defense')"
+              [style.width.%]="animatedStats['defense']"
+              [ngClass]="{ 'low': getStat('defense') < 50, 'high': getStat('defense') >= 50 }"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="infos" *ngIf="currentTab === 'images'" @tabFade>
+        <div class="related-images">
+          <div class="image-gallery">
+            <img
+              *ngIf="pokemon.sprites.front_default"
+              [src]="pokemon.sprites.front_default"
+            />
+            <img
+              *ngIf="pokemon.sprites.back_default"
+              [src]="pokemon.sprites.back_default"
+            />
+            <img
+              *ngIf="pokemon.sprites.front_shiny"
+              [src]="pokemon.sprites.front_shiny"
+            />
+            <img
+              *ngIf="pokemon.sprites.back_shiny"
+              [src]="pokemon.sprites.back_shiny"
+            />
+            <img
+              *ngIf="pokemon.sprites.other?.dream_world?.front_default"
+              [src]="pokemon.sprites.other.dream_world.front_default"
+            />
+            <img
+              *ngIf="pokemon.sprites.other?.home?.front_default"
+              [src]="pokemon.sprites.other.home.front_default"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

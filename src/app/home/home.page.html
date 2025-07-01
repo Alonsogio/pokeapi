@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title
+      ><img class="imgheader" src="assets/img/pokedex.png" alt=""
+    /></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row class="pokemon-row">
+      <ion-col
+        size="8"
+        size-sm="6"
+        size-md="4"
+        size-lg="3"
+        size-xl="3"
+        *ngFor="let pokemon of pokemons"
+      >
+        <ion-card
+          class="pokemon-card"
+          (click)="goToDetail(pokemon)"
+          [ngStyle]="{ 'background-color': getCardColor(pokemon)}"
+        >
+          <div class="imgs-card">
+            <div class="background-img"></div>
+            <img
+              class="pokemon-card-img"
+              [src]="pokemon.sprites.front_default"
+              alt="{{pokemon.name}}"
+            />
+          </div>
+
+          <div class="card-div-name">
+            <ion-card-title class="title"
+              >{{ pokemon.name | titlecase }}</ion-card-title
+            >
+
+            <div class="abilities-wrapper">
+              <div class="ability" *ngFor="let ability of pokemon.abilities">
+                {{ ability.ability.name | titlecase }}
+              </div>
+            </div>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-row class="ion-justify-content-center ion-padding">
+    <ion-button
+      size="small"
+      fill="clear"
+      (click)="loadPokemons(currentPage - 1)"
+      [disabled]="currentPage === 1"
+    >
+      <ion-icon name="chevron-back-outline"></ion-icon>
+    </ion-button>
+
+    <ion-button
+      *ngFor="let page of [].constructor(totalPages); let i = index"
+      size="small"
+      [color]="currentPage === i + 1 ? 'primary' : 'light'"
+      (click)="loadPokemons(i + 1)"
+    >
+      {{ i + 1 }}
+    </ion-button>
+
+    <ion-button
+      size="small"
+      fill="clear"
+      (click)="loadPokemons(currentPage + 1)"
+      [disabled]="currentPage === totalPages"
+    >
+      <ion-icon name="chevron-forward-outline"></ion-icon>
+    </ion-button>
+  </ion-row>
+</ion-content>
